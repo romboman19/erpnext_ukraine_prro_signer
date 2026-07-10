@@ -1,0 +1,17 @@
+{
+  "name": "prro-signer",
+  "version": "0.1.0",
+  "description": "Headless DSTU-4145 signing microservice for PRRO fiscalization (jkurwa-based, no IIT license required)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test/roundtrip.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.2",
+    "gost89": "^0.1.11",
+    "jkurwa": "^1.21.11",
+    "jksreader": "^1.0.0"
+  }
+}
