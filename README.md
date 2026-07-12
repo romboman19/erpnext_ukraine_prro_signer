@@ -1,6 +1,10 @@
-# prro-signer
+# ERPNext Ukraine PRRO Signer
 
-Headless-мікросервіс підпису ДСТУ-4145 для ПРРО-фіскалізації (ERPNext → ДПС).
+Ізольований headless-сервіс підпису ДСТУ-4145/CAdES-T для ПРРО-фіскалізації
+`erpnext_ua` (ERPNext → ДПС).
+
+Репозиторій: `erpnext_ukraine_prro_signer`. Сервіс не є Frappe app і запускається
+окремим контейнером у приватній мережі ERPNext.
 
 Побудований на open-source стеку [dstucrypt](https://github.com/dstucrypt)
 (`jkurwa` + `jksreader`, MIT) — **без ліцензійних бібліотек ІІТ**. Формує
@@ -55,8 +59,8 @@ CMS/CAdES-BES підписи (attached/detached), які приймає фіск
 ## Запуск
 
 ```bash
-docker build -t prro-signer .
-docker run -d --name prro-signer -e API_KEY=<секрет> --network frappe_default prro-signer
+docker build -t erpnext-ukraine-prro-signer .
+docker run -d --name prro-signer -e API_KEY=<секрет> --network frappe_default erpnext-ukraine-prro-signer
 ```
 
 ## Тест
