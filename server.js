@@ -36,16 +36,19 @@ function b64(field, value) {
 	}
 }
 
-// { key, password, data, detached=true, cert? } → { signature, signer }
+// { key, password, data, detached=true, cert?, tsp="signature", time? } → { signature, signer }
 app.post("/api/sign", async (req, res) => {
 	try {
-		const { key, password, data, detached = true, cert = null } = req.body || {};
+		const { key, password, data, detached = true, cert = null, tsp = "signature", time = null } =
+			req.body || {};
 		if (!key || !data) {
 			return res.status(400).json({ error: "Обовʼязкові поля: key (base64), data (base64)" });
 		}
 		const result = await sign(b64("key", key), password, b64("data", data), {
 			detached: Boolean(detached),
 			certBuffer: cert ? b64("cert", cert) : null,
+			tsp: tsp === false || tsp === "none" ? false : tsp,
+			time: time || null,
 		});
 		res.json({
 			signature: result.signature.toString("base64"),

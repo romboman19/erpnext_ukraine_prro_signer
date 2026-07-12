@@ -27,12 +27,23 @@ CMS/CAdES-BES підписи (attached/detached), які приймає фіск
   "password": "пароль контейнера",
   "data": "<base64 даних для підпису>",
   "detached": false,
+  "tsp": "signature",
   "cert": "<base64 сертифіката, якщо його немає в контейнері (опційно)>"
 }
 ```
 Відповідь: `{ "signature": "<base64 CMS>", "signer": { "subject_cn", "ipn", "edrpou", "not_after" } }`
 
 Для ДПС ПРРО використовується `detached: false` (attached CMS).
+
+**Мітка часу (`tsp`)** — рівень CAdES:
+- `"signature"` (за замовчуванням) — signature-time-stamp → **CAdES-T**. Обовʼязково
+  для **онлайн**-документів ДПС. Адреса TSP-сервера КНЕДП береться з сертифіката
+  (`subjectInfoAccess`), тож окремо налаштовувати не треба.
+- `false` / `"none"` — без мітки (**CAdES-BES**). Для **офлайн**-документів, де
+  позначка часу не обовʼязкова, або для тестів з сертифікатами без TSP-адреси.
+
+ДПС вимагає signature-time-stamp і забороняє content-time-stamp (підтверджено на
+еталонних `.signed` прикладах ДПС).
 
 ### `POST /api/unwrap`
 Розгортає attached CMS: `{ "data": "<base64>" }` → `{ "content": "<base64>" }`.
