@@ -1,11 +1,11 @@
 {
-  "name": "prro-signer",
-  "version": "0.1.0",
-  "description": "Headless DSTU-4145 signing microservice for PRRO fiscalization (jkurwa-based, no IIT license required)",
+  "name": "erpnext-ukraine-prro-signer",
+  "version": "0.2.0",
+  "description": "Headless DSTU-4145/CAdES-E-T signing service for ERPNext Ukraine PRRO fiscalization (no IIT license required)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node test/roundtrip.js"
+	"test": "node --test test/*.test.js"
   },
   "license": "MIT",
   "dependencies": {
