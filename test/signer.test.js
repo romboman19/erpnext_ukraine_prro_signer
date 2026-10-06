@@ -4,6 +4,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const test = require("node:test");
+const jk = require("jkurwa");
 const { sign, unwrap, isPrivateAddress } = require("../signer");
 
 const DATA_DIR = path.join(__dirname, "..", "node_modules", "jkurwa", "test", "data");
@@ -22,6 +23,19 @@ test("attached CMS roundtrip preserves content and verifies signature", async ()
 	const info = await unwrap(result.signature);
 	assert.deepEqual(Buffer.from(info.content), payload);
 	assert.ok(result.signer);
+});
+
+test("CMS carries only the signer certificate, as DPS requires", async () => {
+	const result = await sign(key, null, payload, {
+		detached: false,
+		certBuffer: cert,
+		time: TEST_TIME,
+		tsp: false,
+	});
+	const signedData = new jk.models.Message(Buffer.from(result.signature, "base64")).wrap.content;
+	assert.equal(signedData.certificate.length, 1);
+	assert.equal(signedData.crls, undefined);
+	assert.ok(signedData.contentInfo.content, "eContent must be attached");
 });
 
 test("detached CMS is produced", async () => {
